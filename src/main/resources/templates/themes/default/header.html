@@ -9,6 +9,8 @@
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="keywords" th:content="${keywords ?: commons.site_option('site_keywords')}"/>
     <meta name="description" th:content="${description ?:commons.site_option('site_description')}"/>
+    <link rel="shortcut icon" th:href="@{/user/img/favicon.png}"/>
+    <link rel="apple-touch-icon" th:href="@{/user/img/apple-touch-icon.png}"/>
     <title><th:block th:text="${title ?: '首页'}+' - '+${commons.site_option('site_title','Qiu Blog')}"></th:block></title>
     <link th:href="@{//cdn.bootcss.com/highlight.js/9.9.0/styles/xcode.min.css}" rel="stylesheet"/>
     <link th:href="@{/user/css/style.min.css}" rel="stylesheet"/>
@@ -17,7 +19,7 @@
 
 <body gtools_scp_screen_capture_injected="true" th:class="${is_post}?'':'bg-grey'">
 <header id="header" class="header bg-white">
-    <div>
+    <div class="navbar-container">
         <a th:href="${commons.site_url()}" class="navbar-logo">
             <img th:src="@{/user/img/home.jpeg}" alt="首页"/>
         </a>

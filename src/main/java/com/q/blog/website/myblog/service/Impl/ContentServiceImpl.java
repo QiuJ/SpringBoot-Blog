@@ -24,8 +24,14 @@ public class ContentServiceImpl implements IContentService {
     public PageInfo<ContentVo> getContents(Integer p, Integer limit) {
         log.info("Enter getContents method");
         PageHelper.startPage(p,limit);
-        List<ContentVo> contentVoList = contentVoMapper.selectContentVoByTypeAndStatus(Types.ARTICAL.getType(),Types.PUBLISH.getType());
+        List<ContentVo> contentVoList = contentVoMapper.selectContentVosByTypeAndStatus(Types.ARTICAL.getType(),Types.PUBLISH.getType());
         PageInfo<ContentVo> pageInfo = new PageInfo<>(contentVoList);
         return pageInfo;
+    }
+
+    @Override
+    public ContentVo getContents(String id) {
+        ContentVo v = contentVoMapper.selectContentVoByPrimaryKey(id);
+        return v;
     }
 }

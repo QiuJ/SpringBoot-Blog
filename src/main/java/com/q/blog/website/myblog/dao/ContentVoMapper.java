@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ContentVoMapper {
 
-    List<ContentVo> selectContentVoByTypeAndStatus(@Param("type") String type, @Param("status") String status);
+    List<ContentVo> selectContentVosByTypeAndStatus(@Param("type") String type, @Param("status") String status);
+
+    ContentVo selectContentVoByPrimaryKey(String id);
 }

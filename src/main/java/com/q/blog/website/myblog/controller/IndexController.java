@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 /**
 * @Description:    首页
@@ -39,7 +40,7 @@ public class IndexController extends BaseController{
     }
 
     /**
-     *
+     * 首页
      * @param request
      * @param p       第几页
      * @param limit   每页大小
@@ -56,5 +57,22 @@ public class IndexController extends BaseController{
             this.title(request,"第" + p + "页");
         }
         return this.render("index");
+    }
+
+    /**
+    * 文章详情页
+    * @param cid
+    * @author      qj
+    * @date        2019/2/28 11:24 AM
+    */
+    @GetMapping(value = {"article/{cid}","article/{cid}.html"})
+    public String getArticle(HttpServletRequest request, @PathVariable String cid){
+        ContentVo contents = contentService.getContents(cid);
+        if(null == contents || "draft".equals(contents.getStatus())){
+            return this.render_404();
+        }
+        request.setAttribute("article", contents);
+        request.setAttribute("is_post", true);
+        return this.render("post");
     }
 }

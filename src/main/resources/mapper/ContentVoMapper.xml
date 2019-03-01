@@ -25,7 +25,7 @@
         comments_num, allow_comment, allow_ping, allow_feed, content
     </sql>
 
-    <select id="selectContentVoByTypeAndStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectContentVosByTypeAndStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from t_contents
@@ -37,5 +37,12 @@
             AND status = #{status}
         </if>
         order by created DESC
+    </select>
+
+    <select id="selectContentVoByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_contents
+        WHERE cid = #{id}
     </select>
 </mapper>

@@ -23,4 +23,14 @@ public class BaseController {
         request.setAttribute("title",title);
         return this;
     }
+
+    /**
+    * 跳转到404页面
+    * @author      qj
+    * @return
+    * @date        2019/2/28 4:41 PM
+    */
+    public String render_404(){
+        return "comm/error_404";
+    }
 }
