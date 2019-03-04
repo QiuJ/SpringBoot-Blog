@@ -7,9 +7,33 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.apache.commons.lang3.StringUtils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 public class TaleUtils {
+
+    public static String MD5encode(String source){
+        if(StringUtils.isBlank(source)){
+            return null;
+        }
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+        byte[] encode = messageDigest.digest(source.getBytes());
+        StringBuilder hexString = new StringBuilder();
+        for (byte anEncode : encode) {
+            String hex = Integer.toHexString(0xff & anEncode);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
 
     /**
      * markdown转换为html

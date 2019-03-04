@@ -76,6 +76,21 @@ public class Commons {
     }
 
     /**
+    * 返回github头像地址
+    * @author      qj
+    * @exception
+    * @date        2019/3/4 3:31 PM
+    */
+    public static String gravatar(String email){
+        String avatarUrl = "https://github.com/identicons/";
+        if (StringUtils.isBlank(email)) {
+            email = "369971654@qq.com";
+        }
+        String hash = TaleUtils.MD5encode(email.trim().toLowerCase());
+        return avatarUrl + hash + ".png";
+    }
+
+    /**
     * 返回文章链接地址
     * @author      qj
     * @date        2019/2/27 5:12 PM
@@ -100,11 +115,11 @@ public class Commons {
     * @exception
     * @date        2019/3/1 10:17 AM
     */
-    public static String fmtdata(Integer unixTime){
-        return fmtdata(unixTime,"yyyy-MM-DD");
+    public static String fmtdate(Integer unixTime){
+        return fmtdate(unixTime,"yyyy-MM-DD");
     }
 
-    public static String fmtdata(Integer unixTime, String patten){
+    public static String fmtdate(Integer unixTime, String patten){
         if(null != unixTime && StringUtils.isNotBlank(patten)){
             return DateKit.formatDateByUnixTime(unixTime,patten);
         }
