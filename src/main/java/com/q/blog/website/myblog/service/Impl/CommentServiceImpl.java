@@ -2,12 +2,17 @@ package com.q.blog.website.myblog.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.q.blog.website.myblog.constant.WebConst;
 import com.q.blog.website.myblog.dao.CommentVoMapper;
 import com.q.blog.website.myblog.model.Bo.CommentBo;
 import com.q.blog.website.myblog.model.Vo.CommentVo;
+import com.q.blog.website.myblog.model.Vo.ContentVo;
 import com.q.blog.website.myblog.service.ICommentService;
+import com.q.blog.website.myblog.service.IContentService;
+import com.q.blog.website.myblog.utils.DateKit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +22,31 @@ public class CommentServiceImpl implements ICommentService{
 
     @Autowired
     private CommentVoMapper commentVoMapper;
+
+    @Autowired
+    private IContentService contentService;
+
+    @Autowired
+    private CommentVoMapper commentDao;
+
+    @Override
+    @Transactional
+    public String insertComment(CommentVo comments) {
+        ContentVo contents = contentService.getContents(String.valueOf(comments.getCid()));
+        if(null == contents){
+            return "不存在的文章";
+        }
+        comments.setOwnerId(contents.getAuthorId());
+        comments.setStatus("not_audit");// todo 枚举
+        comments.setCreated(DateKit.getCurrentUnixTime());
+        commentDao.insertSelective(comments);
+
+        ContentVo contentVoTemp = new ContentVo();
+        contentVoTemp.setCid(contents.getCid());
+        contentVoTemp.setCommentsNum(contents.getCommentsNum() + 1);
+        contentService.updateContentByCid(contentVoTemp);
+        return WebConst.SUCCESS_RESULT;
+    }
 
     @Override
     public PageInfo<CommentBo> getComments(Integer cid, int page, int limit) {

@@ -10,4 +10,6 @@ public interface ContentVoMapper {
     List<ContentVo> selectContentVosByTypeAndStatus(@Param("type") String type, @Param("status") String status);
 
     ContentVo selectContentVoByPrimaryKey(String id);
+
+    int updateByPrimaryKeySelective(ContentVo record);
 }

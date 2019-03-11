@@ -3,6 +3,8 @@ package com.q.blog.website.myblog.controller;
 import com.github.pagehelper.PageInfo;
 import com.q.blog.website.myblog.constant.WebConst;
 import com.q.blog.website.myblog.model.Bo.CommentBo;
+import com.q.blog.website.myblog.model.Bo.RestResponseBo;
+import com.q.blog.website.myblog.model.Vo.CommentVo;
 import com.q.blog.website.myblog.model.Vo.ContentVo;
 import com.q.blog.website.myblog.service.ICommentService;
 import com.q.blog.website.myblog.service.IContentService;
@@ -11,11 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 
 /**
@@ -98,5 +99,28 @@ public class IndexController extends BaseController{
             PageInfo<CommentBo> commentsPaginator = commentService.getComments(contents.getCid(),Integer.parseInt(cp),6);
             request.setAttribute("comments", commentsPaginator);
         }
+    }
+
+    /**
+    * 评论操作
+    * @author      qj
+    * @date        2019/3/5 3:40 PM
+    */
+    @PostMapping("comment")
+    @ResponseBody
+    public RestResponseBo comment(HttpServletRequest request, HttpServletResponse response,
+                                  @RequestParam Integer cid, @RequestParam Integer coid,
+                                  @RequestParam String author, @RequestParam String mail,
+                                  @RequestParam String url, @RequestParam String text, @RequestParam String _csrf_token){
+        CommentVo commentVo = new CommentVo();
+        commentVo.setCid(cid);
+        commentVo.setCoid(coid);
+        commentVo.setAuthor(author);
+        commentVo.setMail(mail);
+        commentVo.setUrl(url);
+        commentVo.setContent(text);
+        commentVo.setIp(request.getRemoteAddr());
+        commentService.insertComment(commentVo);
+        return RestResponseBo.ok();
     }
 }

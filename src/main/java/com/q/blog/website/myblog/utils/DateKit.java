@@ -19,4 +19,12 @@ public class DateKit {
     public static String formatDateByUnixTime(long unixTime, String dateFormat) {
         return dateFormat(new Date(unixTime * 1000L), dateFormat);
     }
+
+    public static int getCurrentUnixTime() {
+        return getUnixTimeByDate(new Date());
+    }
+
+    public static int getUnixTimeByDate(Date date) {
+        return (int)(date.getTime() / 1000L);
+    }
 }

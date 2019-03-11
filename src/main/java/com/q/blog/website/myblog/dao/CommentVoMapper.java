@@ -10,4 +10,6 @@ import java.util.List;
 public interface CommentVoMapper {
 
     List<CommentVo> selectByCidAndStatus(@Param("cid") String cid, @Param("status") String status);
+
+    int insertSelective(CommentVo record);
 }

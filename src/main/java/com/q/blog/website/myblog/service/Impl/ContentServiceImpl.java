@@ -18,20 +18,27 @@ public class ContentServiceImpl implements IContentService {
     private static final Logger log = LoggerFactory.getLogger(ContentServiceImpl.class);
 
     @Autowired
-    private ContentVoMapper contentVoMapper;
+    private ContentVoMapper contentDao;
 
     @Override
     public PageInfo<ContentVo> getContents(Integer p, Integer limit) {
         log.info("Enter getContents method");
         PageHelper.startPage(p,limit);
-        List<ContentVo> contentVoList = contentVoMapper.selectContentVosByTypeAndStatus(Types.ARTICAL.getType(),Types.PUBLISH.getType());
+        List<ContentVo> contentVoList = contentDao.selectContentVosByTypeAndStatus(Types.ARTICAL.getType(),Types.PUBLISH.getType());
         PageInfo<ContentVo> pageInfo = new PageInfo<>(contentVoList);
         return pageInfo;
     }
 
     @Override
     public ContentVo getContents(String id) {
-        ContentVo v = contentVoMapper.selectContentVoByPrimaryKey(id);
+        ContentVo v = contentDao.selectContentVoByPrimaryKey(id);
         return v;
+    }
+
+    @Override
+    public void updateContentByCid(ContentVo contentVo) {
+        if (null != contentVo && null != contentVo.getCid()) {
+            contentDao.updateByPrimaryKeySelective(contentVo);
+        }
     }
 }

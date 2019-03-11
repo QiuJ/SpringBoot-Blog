@@ -11,4 +11,9 @@ public class WebConst {
      * 最大页吗
      */
     public static final int MAX_PAGE = 100;
+
+    /**
+     * 成功返回
+     */
+    public static String SUCCESS_RESULT = "SUCCESS";
 }

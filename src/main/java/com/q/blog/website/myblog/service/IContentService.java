@@ -25,4 +25,10 @@ public interface IContentService {
     * @date        2019/2/28 11:34 AM
     */
     ContentVo getContents(String id);
+
+    /**
+     * 根据主键更新
+     * @param contentVo contentVo
+     */
+    void updateContentByCid(ContentVo contentVo);
 }
